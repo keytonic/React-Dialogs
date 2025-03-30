@@ -33,7 +33,7 @@ export default function App()
             <Alert 
                 name="aSweetAlertDemo"
                 title="Lorem Ipsum"
-                message="Nunc et tempor massa. Nullam tempor ligula interdum turpis blandit gravida. Nunc et magna elit. Aenean erat nisl, lacinia ac leo vulputate, fermentum vehicula dolor. Integer sit amet nisl viverra, varius nisl in, ullamcorper ex. Morbi a justo nec ligula dictum consequat." 
+                message="fermentum vehicula dolor. Integer sit amet nisl viverra, varius nisl in, ullamcorper ex. Morbi a justo nec ligula dictum consequat." 
                 visible={state.demoAlert}
                 handler={handleComponent}
             />

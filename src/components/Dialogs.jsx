@@ -178,12 +178,16 @@ export function Alert(props)
 
             state.dialog.style.top = constrain((state.dialog.offsetTop - pos2),0,(document.body.clientHeight - height)) + "px";
             state.dialog.style.left = constrain((state.dialog.offsetLeft - pos1),0,(document.body.clientWidth - width)) + "px";
+            state.dialog.style.width = width + "px";
+            state.dialog.style.height = height + "px";
             state.dialog.parentNode.style.cursor = "grabbing";
+            state.dialog.style.minHeight = "fit-content";
         }
         else
         {
             if(state.resizingLeft == true)
             {
+                console.log("test");
                 state.dialog.style.maxWidth = "inherit";
                 state.dialog.style.left = event.clientX + "px";
                 state.dialog.style.width = ((left > event.clientX) ? (width + difference(left,event.clientX)) : (width - difference(left,event.clientX))) + "px";
@@ -191,6 +195,7 @@ export function Alert(props)
             }
             if(state.resizingRight == true)
             {
+                console.log("test");
                 state.dialog.style.maxWidth = "inherit";
                 state.dialog.style.left = left + "px";
                 state.dialog.style.width = (width + (event.clientX - (left + width))) + "px";
