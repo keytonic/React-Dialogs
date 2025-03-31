@@ -1,7 +1,7 @@
 
 # React-Dialogs
 
-This is a React component I created to provide custom, draggable, and fully resizable dialogs. My goal was to develop a robust and easily customizable dialog component that I could quickly integrate into any future project. I drew inspiration from native Windows popups and JavaScript dialogs. The component includes three types of dialogs: Alert, Confirm, and Prompt.
+This is a React component I created to provide custom, draggable, and fully resizable dialogs. My goal was to develop a robust and easily customizable dialog component that I could quickly integrate into any future project. I drew inspiration from native Windows popups and JavaScript dialogs. The component includes three types of dialogs: Alert, Confirm, and Prompt. [See it in action here!](https://keytonic.github.io/React-Dialogs)
 
 ## Alert
 ![Alert Dialog](public/alert.png)
