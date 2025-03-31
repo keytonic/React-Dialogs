@@ -1,10 +1,15 @@
 :root 
 {
-    --border: #b6e5ff;
-    --footer: #f0f0f0;
-    --message: #ffffff;
-    --color: #000000;
-    --trim: #707070;
+    --border:   #b6e5ff;
+    --footer:   #f0f0f0;
+    --message:  #ffffff;
+    --color:    #000000;
+    --trim:     #707070;
+}
+
+*
+{
+    outline:none;
 }
 
 .dialog-wrapper
@@ -269,4 +274,7 @@
     margin-top: 0px;
     width: calc(100% - 32px);
     max-width: 200px;
+    border: 1px solid var(--trim);
+    background-color: var(--message);
+    border-radius: 2px;
 }
