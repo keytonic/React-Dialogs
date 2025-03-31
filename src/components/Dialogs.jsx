@@ -137,10 +137,6 @@ function Window(props)
     useEffect(() => 
     {
         window.addEventListener('resize', handleResize);
-
-
-
-
     },[]);
 
     function handleResize()
