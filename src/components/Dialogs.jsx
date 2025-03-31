@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import './Dialogs.css';
 
 function constrain(value, min, max) 
@@ -12,6 +12,96 @@ function difference(num1, num2)
 }
 
 export function Alert(props) 
+{
+    function handleClick()
+    {
+        props.handler({[props.name]: false});
+    }
+
+    const content = <span className="message" id="message">{props.message}</span>;
+    const buttons = <button id="ok" onClick={handleClick} className="aButton">Ok</button>;
+
+    return (
+        <>
+            <Window 
+                name    =   {props.name}
+                handler =   {props.handler}
+                title   =   {props.title}
+                visible =   {props.visible}
+                width   =   {props.width}
+                height  =   {props.height}
+                content =   {content}
+                buttons =   {buttons}
+            />
+        </>
+    );
+}
+
+export function Confirm(props) 
+{
+    function handleClick(event)
+    {
+        props.handler({[props.name]: event.target.innerText});
+    }
+
+    const content = <span className="message" id="message">{props.message}</span>;
+    const buttons = <><button id="ok" onClick={handleClick} className="aButton">Yes</button><button id="cancel" onClick={handleClick} className="aButton">No</button></>;
+
+    return (
+        <>
+            <Window 
+                name    =   {props.name}
+                handler =   {props.handler}
+                title   =   {props.title}
+                visible =   {props.visible}
+                width   =   {props.width}
+                height  =   {props.height}
+                content =   {content}
+                buttons =   {buttons}
+            />
+        </>
+    );
+}
+
+export function Prompt(props) 
+{
+    const [state, setState] = useState("");
+
+    function handleClick(event)
+    {
+        props.handler({[props.name]: state});
+        setState("");
+    }
+
+    function handleChange(event)
+    {
+        setState(event.target.value);
+    }
+
+    let content = <>
+                    <span className="message" id="message">{props.message}</span>
+                    <input tabindex="0" type="text" id="popup_input" onChange={handleChange} defaultValue={state} ></input>
+                  </>;
+
+    const buttons = <button id="submit" onClick={handleClick} className="aButton">Submit</button>;
+
+    return (
+        <>
+            <Window 
+                name    =   {props.name}
+                handler =   {props.handler}
+                title   =   {props.title}
+                visible =   {props.visible}
+                width   =   {props.width}
+                height  =   {props.height}
+                content =   {content}
+                buttons =   {buttons}
+            />
+        </>
+    );
+}
+
+function Window(props) 
 {
     const [state, setState] = useState(
     {
@@ -44,10 +134,13 @@ export function Alert(props)
 
     }, [state.visible]);
 
-
     useEffect(() => 
     {
         window.addEventListener('resize', handleResize);
+
+
+
+
     },[]);
 
     function handleResize()
@@ -92,15 +185,12 @@ export function Alert(props)
         {
             event.preventDefault();
 
-            if(props.hasOwnProperty("handler") == true && props.hasOwnProperty("name") == true && props.hasOwnProperty("visible") == true)
+            if(props.hasOwnProperty("handler"))
             {
-                setState(previousState => { return { ...previousState, grabbing: false }});
                 props.handler({[props.name]: false});
             }
-            else
-            {
-                setState(previousState => { return { ...previousState, grabbing: false, visible: false}});
-            }
+
+            setState(previousState => { return { ...previousState, grabbing: false, visible: false}});
         }
     }
 
@@ -109,15 +199,15 @@ export function Alert(props)
         event.preventDefault();
         setState(previousState => { return { ...previousState, grabbing: false, resizingLeft: false, resizingRight: false, resizingBottom: false, resizingTop: false}});
         state.dialog.parentNode.style.cursor = "inherit";
+        state.dialog.style.userSelect = "auto";
         document.getElementById("div5").style.cursor = "grab";
     }
 
     function handleMouseDown(event)
     {
-        event.preventDefault();
-
         if(event.target.id == "title" && state.grabbing == false)
         {
+            event.preventDefault();
             document.getElementById("div5").style.cursor = "grabbing";
             setState(previousState => { return { ...previousState, grabbing: true, clientX: event.clientX, clientY: event.clientY }});
         }
@@ -160,14 +250,15 @@ export function Alert(props)
         if(state.grabbing != true && state.resizingLeft != true && state.resizingRight != true && state.resizingBottom != true && state.resizingTop != true || state.visible == false) return;
 
         event.preventDefault();
+        state.dialog.style.userSelect = "none";
 
         const cssObj = window.getComputedStyle(state.dialog, null);
-        const left   = parseInt(cssObj.getPropertyValue("left").slice(0, -2));
-        //const right  = parseInt(cssObj.getPropertyValue("right").slice(0, -2));
-        const width  = parseInt(cssObj.getPropertyValue("width").slice(0, -2));
-        const height = parseInt(cssObj.getPropertyValue("height").slice(0, -2));
-        const top    = parseInt(cssObj.getPropertyValue("top").slice(0, -2));
-        //const bottom = parseInt(cssObj.getPropertyValue("bottom").slice(0, -2));
+        const left   = parseFloat(cssObj.getPropertyValue("left").slice(0, -2));
+        //const right = parseFloat(cssObj.getPropertyValue("right").slice(0, -2));
+        const width  = parseFloat(cssObj.getPropertyValue("width").slice(0, -2));
+        const height = parseFloat(cssObj.getPropertyValue("height").slice(0, -2));
+        const top    = parseFloat(cssObj.getPropertyValue("top").slice(0, -2));
+        //const bottom = parseFloat(cssObj.getPropertyValue("bottom").slice(0, -2));
 
         if(state.grabbing == true)
         {
@@ -187,7 +278,6 @@ export function Alert(props)
         {
             if(state.resizingLeft == true)
             {
-                console.log("test");
                 state.dialog.style.maxWidth = "inherit";
                 state.dialog.style.left = event.clientX + "px";
                 state.dialog.style.width = ((left > event.clientX) ? (width + difference(left,event.clientX)) : (width - difference(left,event.clientX))) + "px";
@@ -195,7 +285,6 @@ export function Alert(props)
             }
             if(state.resizingRight == true)
             {
-                console.log("test");
                 state.dialog.style.maxWidth = "inherit";
                 state.dialog.style.left = left + "px";
                 state.dialog.style.width = (width + (event.clientX - (left + width))) + "px";
@@ -225,7 +314,6 @@ export function Alert(props)
                 state.dialog.parentNode.style.cursor = "ne-resize";
             }
         }
-
     }
 
     if(state.visible == false) return (<></>);
@@ -246,12 +334,12 @@ export function Alert(props)
                         <div id="div6"></div>
                         <div id="div7"></div>
                         <div id="div8"> 
-                            <span className="message" id="message">{props.message}</span>
+                            {props.content}
                         </div>
                         <div id="div9"></div>
                         <div id="div10"></div>
                         <div id="div11"> 
-                            <button id="ok" onClick={handleClick} className="aButton">Ok</button>
+                            {props.buttons}
                         </div>
                         <div id="div12"></div>
                         <div id="div13"></div>
