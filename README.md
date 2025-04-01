@@ -29,7 +29,7 @@ export default function App()
 }
 ```
 ## Confirm
-![Alert Dialog](public/confirm.png)
+![Confirm Dialog](public/confirm.png)
 ``` JavaScript
 import { Confirm } from './components/Dialogs';
 
@@ -66,7 +66,7 @@ export default function App()
 }
 ```
 ## Prompt
-![Alert Dialog](public/prompt.png)
+![Prompt Dialog](public/prompt.png)
 ``` JavaScript
 import { Prompt } from './components/Dialogs';
 
@@ -103,7 +103,7 @@ export default function App()
 }
 ```
 ## Customize
-![Alert Dialog](public/customize.png)
+![Customize](public/customize.png)
 
 Customization is straightforward; you can modify anything you like. However, if you only want to adjust the dialog colors to match your site's or project's theme, you can do so by editing the CSS color variables at the top of <span style="background-color:rgb(61, 61, 61)">Dialogs.css</span>
 
